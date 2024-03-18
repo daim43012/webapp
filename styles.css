@@ -24,25 +24,33 @@ body, html {
 #click-button:hover {
     background-color: #0056b3;
 }
-/* Другие стили */
 
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%; /* Задает высоту для контейнера, чтобы оставить место для навигации */
+}
+
+/* Стили для навигационной панели */
 .navigation {
-  display: flex;
-  justify-content: space-around;
-  padding: 10px;
-  background-color: #800000; /* Тёмно-красный цвет фона */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #800000; /* Тёмно-красный цвет фона */
+    padding: 10px 0; /* Вертикальный отступ */
 }
 
-.navigation button {
-  background: none;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.navigation button:hover {
-  background-color: #a52a2a; /* Чуть более светлый красный при наведении */
+/* Добавьте это в styles.css */
+/* Стили для кнопки "Назад" */
+.back-button {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Центрирование кнопки */
+    background-color: #800000; /* Тёмно-красный цвет фона */
+    padding: 10px 0; /* Вертикальный отступ */
 }
