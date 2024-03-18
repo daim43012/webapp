@@ -1,3 +1,4 @@
-document.getElementById('click-button').addEventListener('click', function() {
-    // alert('Button clicked!');
+document.getElementById('clickable-image').addEventListener('click', function() {
+    this.classList.add('clicked');
+    setTimeout(() => this.classList.remove('clicked'), 200); 
 });
