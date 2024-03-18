@@ -24,3 +24,25 @@ body, html {
 #click-button:hover {
     background-color: #0056b3;
 }
+/* Другие стили */
+
+.navigation {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background-color: #800000; /* Тёмно-красный цвет фона */
+}
+
+.navigation button {
+  background: none;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.navigation button:hover {
+  background-color: #a52a2a; /* Чуть более светлый красный при наведении */
+}
