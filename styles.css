@@ -18,8 +18,8 @@ body, html {
 .navigation {
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
-    position: fixed;
+    justify-content: space-between;
+    position: static;
     bottom: 0;
 /*     background-color: #333;  */
 }
@@ -27,7 +27,7 @@ body, html {
 button {
     padding: 10px 20px;
     margin: 5px;
-    font-size: 16px;
+    font-size: 14px;
     color: white;
     background-color: #007bff;
     border: none;
