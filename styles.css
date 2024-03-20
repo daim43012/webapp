@@ -32,7 +32,7 @@ html {
 .navigation {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   position: static;
   bottom: 0;
   /*     background-color: #333;  */
@@ -52,20 +52,6 @@ button {
 
 button:hover {
   background-color: #0056b3;
-}
-
-/* Остальные стили, если необходимо */
-
-    color: white;
-    background: linear-gradient(pink, blue);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #0056b3;
 }
 
 /* Остальные стили, если необходимо */
