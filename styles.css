@@ -72,8 +72,9 @@ button:hover {
 }
 
 .progressBar {
-  margin: 10px;
-  width: 100%;
+  margin-bottom: 10px;
+  width: 96%;
+  margin-left: 2%;
   height: 1%; /* Высота внешней полосы */
   background-color: #ddd; /* Цвет фона внешней полосы */
   border-radius: 10px; /* Скругление углов внешней полосы */
@@ -91,5 +92,21 @@ button:hover {
   ); /* Градиент для внутренней полосы */
   border-radius: 10px; /* Скругление углов внутренней полосы */
   transition: width 0.5s ease-in-out; /* Плавное изменение ширины внутренней полосы */
+}
+
+.value {
+  display: flex; /* Используем flexbox для расположения дочерних элементов */
+  justify-content: space-between; /* Располагаем дочерние элементы на противоположных сторонах */
+  color: white;
+  font-size: 22px; /* Устанавливаем размер шрифта для обоих заголовков */
+  width: 100%; /* Занимаем всю доступную ширину родителя */
+}
+
+.value h1,
+.value h2 {
+  margin-bottom: 5px; /* Убираем стандартные отступы у заголовков */
+  font-size: inherit; /* Наследуем размер шрифта от .value */
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
