@@ -10,6 +10,7 @@ html {
 
 #img {
   transition: transform 0.2s ease; /* Плавное увеличение и уменьшение */
+  
 }
 
 .clicked {
@@ -111,20 +112,29 @@ button:hover {
 }
 
 @keyframes flyAndFade {
-    0% {
-      opacity: 1;
-      transform: translate(0, 0);
-    }
-    100% {
-      opacity: 0;
-      transform: translate(0, -50px); /* Элемент улетает вверх на 50px и становится прозрачным */
-    }
+  0% {
+    opacity: 1;
+    transform: translate(0, 0);
   }
-  
-  .token-change {
-    position: absolute;
-    color: white; /* Или любой другой цвет */
-    font-size: 16px; /* Размер шрифта */
-    animation: flyAndFade 0.3s ease-in-out forwards; /* Анимация с указанием, что конечные стили должны сохраняться */
+  100% {
+    opacity: 0;
+    transform: translate(
+      0,
+      -50px
+    ); /* Элемент улетает вверх на 50px и становится прозрачным */
   }
+}
+
+.token-change {
+  position: absolute;
+  color: white; /* Или любой другой цвет */
+  font-size: 16px; /* Размер шрифта */
+  animation: flyAndFade 0.3s ease-in-out forwards; /* Анимация */
+  user-select: none; /* Предотвращает выделение текста */
+  -webkit-user-select: none; /* Предотвращает выделение текста для Safari и Chrome */
+  -moz-user-select: none; /* Предотвращает выделение текста для Firefox */
+  -ms-user-select: none; /* Предотвращает выделение текста для Internet Explorer/Edge */
+  pointer-events: none; /* Предотвращает получение событий мыши, включая выделение и клики */
+}
+
   
