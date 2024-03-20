@@ -1,35 +1,61 @@
-body, html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    background: linear-gradient(blue, black);
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(blue, black);
 }
 
 .sticker-container {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* Добавьте стили для вашего стикера (изображения) здесь */
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Добавьте стили для вашего стикера (изображения) здесь */
 }
-/*  */
+
+#img {
+  transition: transform 0.2s ease; /* Плавное увеличение и уменьшение */
+}
+
+.clicked {
+  transform: scale(1.05); /* Увеличивает изображение на 5% */
+}
+
+.click-effect {
+  transform: scale(0.95); /* Уменьшает изображение для эффекта клика */
+  transition: transform 0.05s ease; /* Более быстрая анимация для эффекта клика */
+}
 
 .navigation {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    position: static;
-    bottom: 0;
-/*     background-color: #333;  */
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: static;
+  bottom: 0;
+  /*     background-color: #333;  */
 }
-/*  */
 
 button {
-    padding: 9px 18px;
-    margin: 5px;
-    font-size: 14px;
+  padding: 9px 18px;
+  margin: 5px;
+  font-size: 14px;
+  color: white;
+  background: linear-gradient(pink, blue);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Остальные стили, если необходимо */
+
     color: white;
     background: linear-gradient(pink, blue);
     border: none;
