@@ -32,6 +32,26 @@ document.getElementById("img").addEventListener("click", function () {
     tokens1--;
     tokens2--; // Уменьшаем tokens2 вместе с tokens1
     updateProgressBar(); // Обновляем полосу прогресса
+
+    // Создаём новый элемент для отображения изменения
+    const changeElement = document.createElement("div");
+    changeElement.textContent = "+1"; // Текст, отображающий изменение
+    changeElement.className = "token-change"; // Применяем класс с анимацией
+
+    // Рассчитываем и устанавливаем позицию элемента на основе места клика
+    const rect = this.getBoundingClientRect(); // Получаем позицию и размер img
+    const clickX = event.clientX - rect.left; // X координата клика относительно img
+    const clickY = event.clientY - rect.top; // Y координата клика относительно img
+    changeElement.style.left = `${clickX}px`;
+    changeElement.style.top = `${clickY}px`;
+
+    // Добавляем элемент к контейнеру изображения
+    this.parentElement.appendChild(changeElement);
+
+    // Удаляем элемент после анимации
+    setTimeout(() => {
+      changeElement.remove();
+    }, 300); // Соответствует длительности анимации
   }
 
   tokens += 1; // Увеличиваем tokens на 1 при каждом клике
@@ -57,4 +77,3 @@ document.getElementById("img").addEventListener("click", function () {
     this.classList.remove("clicked");
   }, 200);
 });
-
