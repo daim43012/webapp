@@ -109,3 +109,22 @@ button:hover {
   margin-left: 2%;
   margin-right: 2%;
 }
+
+@keyframes flyAndFade {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(0, -50px); /* Элемент улетает вверх на 50px и становится прозрачным */
+    }
+  }
+  
+  .token-change {
+    position: absolute;
+    color: white; /* Или любой другой цвет */
+    font-size: 16px; /* Размер шрифта */
+    animation: flyAndFade 0.3s ease-in-out forwards; /* Анимация с указанием, что конечные стили должны сохраняться */
+  }
+  
