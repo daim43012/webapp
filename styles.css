@@ -10,7 +10,6 @@ html {
 
 #img {
   transition: transform 0.2s ease; /* Плавное увеличение и уменьшение */
-  
 }
 
 .clicked {
@@ -128,8 +127,9 @@ button:hover {
 .token-change {
   position: absolute;
   color: white; /* Или любой другой цвет */
-  font-size: 16px; /* Размер шрифта */
-  animation: flyAndFade 0.3s ease-in-out forwards; /* Анимация */
+  font-size: 22px; /* Размер шрифта */
+  font-family: Arial, Helvetica, sans-serif;
+  animation: flyAndFade 0.8s ease-in-out forwards; /* Анимация */
   user-select: none; /* Предотвращает выделение текста */
   -webkit-user-select: none; /* Предотвращает выделение текста для Safari и Chrome */
   -moz-user-select: none; /* Предотвращает выделение текста для Firefox */
@@ -137,4 +137,3 @@ button:hover {
   pointer-events: none; /* Предотвращает получение событий мыши, включая выделение и клики */
 }
 
-  
