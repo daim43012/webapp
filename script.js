@@ -26,6 +26,10 @@ setInterval(() => {
   }
 }, 1000); // 1000 миллисекунд (1 секунда)
 
+document.getElementById("img").addEventListener("mousedown", function (event) {
+  event.preventDefault(); // Предотвращаем действие по умолчанию
+});
+
 document.getElementById("img").addEventListener("click", function () {
   // Уменьшаем tokens1 и tokens2 при каждом клике, если tokens1 > 0
   if (tokens1 > 0) {
@@ -38,20 +42,21 @@ document.getElementById("img").addEventListener("click", function () {
     changeElement.textContent = "+1"; // Текст, отображающий изменение
     changeElement.className = "token-change"; // Применяем класс с анимацией
 
-    // Рассчитываем и устанавливаем позицию элемента на основе места клика
-    const rect = this.getBoundingClientRect(); // Получаем позицию и размер img
-    const clickX = event.clientX - rect.left; // X координата клика относительно img
-    const clickY = event.clientY - rect.top; // Y координата клика относительно img
-    changeElement.style.left = `${clickX}px`;
-    changeElement.style.top = `${clickY}px`;
+    // Получаем координаты клика относительно документа
+    const clickX = event.clientX;
+    const clickY = event.clientY;
 
-    // Добавляем элемент к контейнеру изображения
-    this.parentElement.appendChild(changeElement);
+    // Учитываем прокрутку страницы
+    changeElement.style.left = `${clickX + window.scrollX}px`;
+    changeElement.style.top = `${clickY + window.scrollY}px`;
+
+    // Добавляем элемент к body
+    document.body.appendChild(changeElement);
 
     // Удаляем элемент после анимации
     setTimeout(() => {
       changeElement.remove();
-    }, 300); // Соответствует длительности анимации
+    }, 500); // Соответствует длительности анимации
   }
 
   tokens += 1; // Увеличиваем tokens на 1 при каждом клике
