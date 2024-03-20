@@ -1,6 +1,12 @@
 let clickTimeout;
+let tokens = 0; // Переменная для отслеживания количества "токенов"
 
 document.getElementById("img").addEventListener("click", function () {
+  // Увеличиваем tokens на 1 при каждом клике
+  tokens += 1;
+  // Обновляем содержимое <h1> с новым значением tokens
+  document.querySelector(".count h1").textContent = `tokens: ${tokens}`;
+
   // Вибрация при клике (поддерживается не на всех устройствах)
   if (navigator.vibrate) {
     navigator.vibrate(50); // Вибрация на 50 миллисекунд
