@@ -8,14 +8,6 @@ html {
   background: linear-gradient(blue, black);
 }
 
-.sticker-container {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* Добавьте стили для вашего стикера (изображения) здесь */
-}
-
 #img {
   transition: transform 0.2s ease; /* Плавное увеличение и уменьшение */
 }
@@ -41,9 +33,9 @@ button {
   flex-grow: 1; /* Растягивает кнопки, чтобы они занимали все доступное пространство */
   padding: 9px 18px;
   margin: 0 5px; /* Отступы между кнопками */
-  font-size: 14px;
-  color: white;
-  background: linear-gradient(pink, blue);
+  font-size: 18px;
+  color: black;
+  background-color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -61,6 +53,20 @@ button {
 
 button:hover {
   background-color: #0056b3;
+  color: white;
 }
 
-/* Остальные стили, если необходимо */
+.sticker-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column; /* Добавляемое свойство для упорядочивания дочерних элементов в колонку */
+  justify-content: center;
+  align-items: center;
+}
+
+.count {
+  color: white;
+  font-size: 36px;
+  /* Удалите свойство flex-grow, так как оно не нужно для внутреннего div */
+  /* Добавьте другие стили, если нужно, для позиционирования или отступов */
+}
