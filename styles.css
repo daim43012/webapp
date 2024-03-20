@@ -32,15 +32,15 @@ html {
 .navigation {
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
-  position: static;
-  bottom: 0;
-  /*     background-color: #333;  */
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px; /* Отступ от нижней границы */
 }
 
 button {
+  flex-grow: 1; /* Растягивает кнопки, чтобы они занимали все доступное пространство */
   padding: 9px 18px;
-  margin: 5px;
+  margin: 0 5px; /* Отступы между кнопками */
   font-size: 14px;
   color: white;
   background: linear-gradient(pink, blue);
@@ -48,6 +48,15 @@ button {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+}
+
+/* Первая и последняя кнопка без отступов с боков */
+.navigation button:first-child {
+  margin-left: 0;
+}
+
+.navigation button:last-child {
+  margin-right: 0;
 }
 
 button:hover {
