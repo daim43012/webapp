@@ -109,35 +109,18 @@ function fetchAndDisplayTgId() {
     const userId = Telegram.WebApp.initDataUnsafe.user.id;
     document.getElementById("tgIdDisplay").textContent = `TG ID: ${userId}`;
 
-    // Отправляем userId на сервер для сохранения пользователя
-    fetch("http://localhost:5500/save_user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: userId }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        // Здесь можно добавить логику после успешного сохранения пользователя
-      })
-      .catch((error) =>
-        console.error("Ошибка при сохранении пользователя:", error)
-      );
-
     // Получаем количество токенов для пользователя
     fetch(`http://localhost:5500/get_tokens?userId=${userId}`)
       .then((response) => response.json())
       .then((data) => {
-        // Обновляем интерфейс с количеством токенов пользователя
         if (data.status === "success") {
+          tokens = data.tokens; // Обновляем переменную tokens
           tokens1 = data.tokens;
           tokens2 = data.tokens;
           updateProgressBar();
-          document.getElementById(
-            "tokensValue"
-          ).textContent = `⚡ ${tokens2} (+1)`;
+          // Обновляем текстовый элемент с количеством токенов
+          document.querySelector(".count h1").textContent = `FTMC Tokens: ${tokens}`;
+          document.getElementById("tokensValue").textContent = `⚡ ${tokens2} (+1)`;
         } else {
           console.error("Ошибка при получении токенов:", data.message);
         }
