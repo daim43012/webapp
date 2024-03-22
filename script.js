@@ -1,14 +1,14 @@
 let clickTimeout;
 let tokens = 0; // Переменная для отслеживания количества "токенов"
-let tokens1 = 1000; // Начальное значение
-let tokens2 = 1000; // Добавленная переменная
+let tokens1 = 1000; // Начальное значение, будет обновлено после загрузки
+let tokens2 = 1000; // Добавленная переменная, также будет обновлена
 const tokensMax = 1000; // Максимальное значение
 
+// Функция для обновления прогресс-бара
 function updateProgressBar() {
   let percentage = (tokens1 / tokensMax) * 100;
   document.querySelector(".progressBarFill").style.width = percentage + "%";
 }
-
 updateProgressBar();
 
 setInterval(() => {
@@ -85,5 +85,50 @@ function fetchAndDisplayTgId() {
     .catch((error) => console.error("Ошибка:", error));
 }
 
-// Вызовите функцию при загрузке страницы или по событию
+function fetchAndDisplayUserData() {
+  // Предполагается, что TG ID передаётся как параметр URL, замените URL на актуальный
+  const params = new URLSearchParams(window.location.search);
+  const tgId = params.get("tg_id");
+
+  if (!tgId) {
+    console.error("TG ID не найден");
+    return;
+  }
+
+  fetch(`http://localhost:5500/api/getUserTokens?tg_id=${tgId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      tokens1 = data.tokens;
+      tokens2 = data.tokens;
+      updateProgressBar();
+      document.querySelector(
+        ".value h1"
+      ).textContent = `⚡ ${tokens2} / ${tokensMax}`;
+    })
+    .catch((error) => console.error("Ошибка:", error));
+}
+
+// Функция для обновления токенов пользователя в базе данных
+function updateUserTokens() {
+  const params = new URLSearchParams(window.location.search);
+  const tgId = params.get("tg_id");
+
+  if (!tgId) {
+    console.error("TG ID не найден");
+    return;
+  }
+
+  fetch("http://localhost:5500/api/updateUserTokens", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ tg_id: tgId, tokens: tokens2 }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Токены обновлены", data);
+    })
+    .catch((error) => console.error("Ошибка:", error));
+}
 fetchAndDisplayTgId();
