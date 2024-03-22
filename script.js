@@ -11,6 +11,16 @@ function updateProgressBar() {
 }
 updateProgressBar();
 
+function fetchAndDisplayTgId() {
+  if (Telegram.WebApp.initDataUnsafe) {
+    const userId = Telegram.WebApp.initDataUnsafe.user.id;
+    document.getElementById("tgIdDisplay").textContent = `TG ID: ${userId}`;
+  }
+}
+
+// Вызовите функцию сразу после её объявления
+fetchAndDisplayTgId();
+
 setInterval(() => {
   if (tokens1 < tokensMax) {
     tokens1++; // Увеличиваем tokens1 на 1 каждую секунду
@@ -85,50 +95,4 @@ function fetchAndDisplayTgId() {
     .catch((error) => console.error("Ошибка:", error));
 }
 
-function fetchAndDisplayUserData() {
-  // Предполагается, что TG ID передаётся как параметр URL, замените URL на актуальный
-  const params = new URLSearchParams(window.location.search);
-  const tgId = params.get("tg_id");
-
-  if (!tgId) {
-    console.error("TG ID не найден");
-    return;
-  }
-
-  fetch(`http://localhost:5500/api/getUserTokens?tg_id=${tgId}`)
-    .then((response) => response.json())
-    .then((data) => {
-      tokens1 = data.tokens;
-      tokens2 = data.tokens;
-      updateProgressBar();
-      document.querySelector(
-        ".value h1"
-      ).textContent = `⚡ ${tokens2} / ${tokensMax}`;
-    })
-    .catch((error) => console.error("Ошибка:", error));
-}
-
-// Функция для обновления токенов пользователя в базе данных
-function updateUserTokens() {
-  const params = new URLSearchParams(window.location.search);
-  const tgId = params.get("tg_id");
-
-  if (!tgId) {
-    console.error("TG ID не найден");
-    return;
-  }
-
-  fetch("http://localhost:5500/api/updateUserTokens", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ tg_id: tgId, tokens: tokens2 }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Токены обновлены", data);
-    })
-    .catch((error) => console.error("Ошибка:", error));
-}
 fetchAndDisplayTgId();
