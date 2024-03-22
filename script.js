@@ -71,3 +71,19 @@ document.getElementById("img").addEventListener("click", function () {
     this.classList.remove("clicked");
   }, 200);
 });
+
+// В вашем script.js
+function fetchAndDisplayTgId() {
+  fetch("http://localhost:5500/api/getLastTgId") // Используйте ваш реальный URL сервера здесь
+    .then((response) => response.json())
+    .then((data) => {
+      // Предполагая, что у вас есть элемент с id="tgIdDisplay" для отображения tg_id
+      document.getElementById(
+        "tgIdDisplay"
+      ).textContent = `TG ID: ${data.tg_id}`;
+    })
+    .catch((error) => console.error("Ошибка:", error));
+}
+
+// Вызовите функцию при загрузке страницы или по событию
+fetchAndDisplayTgId();
