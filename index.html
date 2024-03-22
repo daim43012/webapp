@@ -2,32 +2,28 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Main Page</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Добавлено -->
   </head>
   <body>
     <div class="sticker-container">
       <div class="count">
-        <!-- В вашем index.html -->
-        <div id="tgIdDisplay">TG ID здесь</div>
+        <!-- Обновлено для отображения TG ID -->
+        <div id="tgIdDisplay">Загрузка TG ID...</div>
 
         <h1>FTMC Tokens</h1>
         <h4>analytic #90875</h4>
       </div>
       <img id="img" src="logo.png" alt="Описание картинки" />
-      <!-- <div id="tokensDisplay"></div> -->
     </div>
     <div class="progrestext">
       <div class="value">
-        <h1>⚡ 1000 (+1)</h1>
+        <h1 id="tokensValue">⚡ 1000 (+1)</h1>
         <h1>(+1)</h1>
       </div>
     </div>
-
     <div class="progressBar">
       <div class="progressBarFill"></div>
     </div>
