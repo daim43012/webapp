@@ -80,6 +80,25 @@ document.getElementById("img").addEventListener("click", function () {
   clickTimeout = setTimeout(() => {
     this.classList.remove("clicked");
   }, 200);
+  let userId = Telegram.WebApp.initDataUnsafe.user.id; // Убедитесь, что получаете userId откуда нужно
+
+  // Отправляем новое значение tokens на сервер
+  fetch("http://localhost:5500/update_tokens", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ userId: userId, tokens: tokens }), // Отправляем текущее значение tokens
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Здесь вы можете обработать ответ от сервера, например, сообщить об успехе
+      console.log(data);
+    })
+    .catch((error) => {
+      // Здесь вы можете обработать ошибку отправки данных
+      console.error("Error:", error);
+    });
 });
 
 function fetchAndDisplayTgId() {
@@ -89,34 +108,36 @@ function fetchAndDisplayTgId() {
 
     // Отправляем userId на сервер для сохранения пользователя
     fetch("http://localhost:5500/save_user", {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ userId: userId }),
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      // Здесь можно добавить логику после успешного сохранения пользователя
-    })
-    .catch((error) => console.error('Ошибка при сохранении пользователя:', error));
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        // Здесь можно добавить логику после успешного сохранения пользователя
+      })
+      .catch((error) =>
+        console.error("Ошибка при сохранении пользователя:", error)
+      );
 
-    // Получаем количество токенов для пользователя
     fetch(`http://localhost:5500/get_tokens?userId=${userId}`)
-    .then((response) => response.json())
-    .then((data) => {
-      // Обновляем интерфейс с количеством токенов пользователя
-      if (data.status === "success") {
-        tokens1 = data.tokens;
-        tokens2 = data.tokens;
-        updateProgressBar();
-        document.getElementById("tokensValue").textContent = `⚡ ${tokens2} (+1)`;
-      } else {
-        console.error('Ошибка при получении токенов:', data.message);
-      }
-    })
-    .catch((error) => console.error('Ошибка:', error));
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "success") {
+          tokens1 = data.tokens;
+          tokens2 = data.tokens;
+          updateProgressBar();
+          document.getElementById(
+            "tokensValue"
+          ).textContent = `⚡ ${tokens2} (+1)`;
+        } else {
+          console.error("Ошибка при получении токенов:", data.message);
+        }
+      })
+      .catch((error) => console.error("Ошибка:", error));
   }
 }
 fetchAndDisplayTgId();
