@@ -53,6 +53,7 @@ document.getElementById("img").addEventListener("click", function () {
     changeElement.style.top = `${clickY + window.scrollY}px`;
 
     document.body.appendChild(changeElement);
+    updateTokensOnServer();
 
     setTimeout(() => {
       changeElement.remove();
@@ -68,6 +69,27 @@ document.getElementById("img").addEventListener("click", function () {
   // Вибрация при клике (поддерживается не на всех устройствах)
   if (navigator.vibrate) {
     navigator.vibrate(50); // Вибрация на 50 миллисекунд
+  }
+
+  function updateTokensOnServer() {
+    // Предполагается, что userId уже сохранен в вашем приложении после инициализации
+    const userId = Telegram.WebApp.initDataUnsafe.user.id;
+
+    // Отправляем новое количество токенов на сервер
+    fetch("http://localhost:5500/update_tokens", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId: userId, tokens: tokens1 }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Tokens updated", data);
+      })
+      .catch((error) => {
+        console.error("Ошибка при обновлении токенов", error);
+      });
   }
 
   clearTimeout(clickTimeout); // Очистить текущий таймер, если он существует
