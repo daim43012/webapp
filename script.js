@@ -82,17 +82,46 @@ document.getElementById("img").addEventListener("click", function () {
   }, 200);
 });
 
-// В вашем script.js
 function fetchAndDisplayTgId() {
-  fetch("http://localhost:5500/api/getLastTgId") // Используйте ваш реальный URL сервера здесь
-    .then((response) => response.json())
-    .then((data) => {
-      // Предполагая, что у вас есть элемент с id="tgIdDisplay" для отображения tg_id
-      document.getElementById(
-        "tgIdDisplay"
-      ).textContent = `TG ID: ${data.tg_id}`;
+  if (Telegram.WebApp.initDataUnsafe) {
+    const userId = Telegram.WebApp.initDataUnsafe.user.id;
+    document.getElementById("tgIdDisplay").textContent = `TG ID: ${userId}`;
+
+    // Отправляем userId на сервер для сохранения пользователя
+    fetch("http://localhost:5500/save_user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId: userId }),
     })
-    .catch((error) => console.error("Ошибка:", error));
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        // Здесь можно добавить логику после успешного сохранения пользователя
+      })
+      .catch((error) =>
+        console.error("Ошибка при сохранении пользователя:", error)
+      );
+
+    // Получаем количество токенов для пользователя
+    fetch(`http://localhost:5500/get_tokens?userId=${userId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        // Обновляем интерфейс с количеством токенов пользователя
+        if (data.status === "success") {
+          tokens1 = data.tokens;
+          tokens2 = data.tokens;
+          updateProgressBar();
+          document.getElementById(
+            "tokensValue"
+          ).textContent = `⚡ ${tokens2} (+1)`;
+        } else {
+          console.error("Ошибка при получении токенов:", data.message);
+        }
+      })
+      .catch((error) => console.error("Ошибка:", error));
+  }
 }
 
 fetchAndDisplayTgId();
