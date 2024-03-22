@@ -10,7 +10,10 @@ html {
 
 
 #img {
-  transition: transform 0.2s ease; /* Плавное увеличение и уменьшение */
+  transition: transform 0.2s ease; 
+  width: 200px:/* Плавное увеличение и уменьшение */
+  height: 200px:/* Плавное увеличение и уменьшение */
+
 }
 
 .clicked {
