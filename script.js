@@ -1,12 +1,12 @@
 let clickTimeout;
 let tokens = 0; // Переменная для отслеживания количества "токенов"
-let tokens1 = 1000; // Начальное значение, будет обновлено после загрузки
-let tokens2 = 1000; // Добавленная переменная, также будет обновлена
+let progress_bar = 1000; // Начальное значение, будет обновлено после загрузки
+// let tokens2 = 1000; // Добавленная переменная, также будет обновлена
 const tokensMax = 1000; // Максимальное значение
 
 // Функция для обновления прогресс-бара
 function updateProgressBar() {
-  let percentage = (tokens1 / tokensMax) * 100;
+  let percentage = (progress_bar / tokensMax) * 100;
   document.querySelector(".progressBarFill").style.width = percentage + "%";
 }
 updateProgressBar();
@@ -22,13 +22,13 @@ function fetchAndDisplayTgId() {
 fetchAndDisplayTgId();
 
 setInterval(() => {
-  if (tokens1 < tokensMax) {
-    tokens1++; // Увеличиваем tokens1 на 1 каждую секунду
-    tokens2++; // Увеличиваем tokens2 вместе с tokens1
+  if (progress_bar < tokensMax) {
+    progress_bar++; // Увеличиваем progress_bar на 1 каждую секунду
+    // tokens2++; // Увеличиваем tokens2 вместе с progress_bar
     updateProgressBar(); // Обновляем полосу прогресса
     document.querySelector(
       ".value h1"
-    ).textContent = `⚡ ${tokens2} (+1) / ${tokensMax}`;
+    ).textContent = `⚡ ${progress_bar} (+1) / ${tokensMax}`;
   }
 }, 1000);
 
@@ -37,9 +37,9 @@ document.getElementById("img").addEventListener("mousedown", function (event) {
 });
 
 document.getElementById("img").addEventListener("click", function () {
-  if (tokens1 > 0) {
-    tokens1--;
-    tokens2--; // Уменьшаем tokens2 вместе с tokens1
+  if (progress_bar > 0) {
+    progress_bar--;
+    // tokens2--; // Уменьшаем tokens2 вместе с progress_bar
     updateProgressBar(); // Обновляем полосу прогресса
 
     const changeElement = document.createElement("div");
@@ -63,7 +63,7 @@ document.getElementById("img").addEventListener("click", function () {
   document.querySelector(".count h1").textContent = `FTMC Tokens: ${tokens}`;
   document.querySelector(
     ".value h1"
-  ).textContent = `⚡ ${tokens2} (+1) / ${tokensMax}`;
+  ).textContent = `⚡ ${progress_bar} (+1) / ${tokensMax}`;
 
   // Вибрация при клике (поддерживается не на всех устройствах)
   if (navigator.vibrate) {
@@ -108,8 +108,8 @@ function fetchAndDisplayTgId() {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "success") {
-          tokens1 = data.tokens;
-          tokens2 = data.tokens;
+          progress_bar = data.tokens;
+          // tokens2 = data.tokens;
           updateProgressBar();
           document.getElementById(
             "tokensValue"
