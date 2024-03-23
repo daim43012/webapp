@@ -80,25 +80,6 @@ document.getElementById("img").addEventListener("click", function () {
   clickTimeout = setTimeout(() => {
     this.classList.remove("clicked");
   }, 200);
-  let userId = Telegram.WebApp.initDataUnsafe.user.id; // Убедитесь, что получаете userId откуда нужно
-
-  // Отправляем новое значение tokens на сервер
-  fetch("http://localhost:5500/update_tokens", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ userId: userId, tokens: tokens }), // Отправляем текущее значение tokens
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // Здесь вы можете обработать ответ от сервера, например, сообщить об успехе
-      console.log(data);
-    })
-    .catch((error) => {
-      // Здесь вы можете обработать ошибку отправки данных
-      console.error("Error:", error);
-    });
 });
 
 function fetchAndDisplayTgId() {
