@@ -1,134 +1,63 @@
-let clickTimeout;
 let tokens = 0; // Переменная для отслеживания количества "токенов"
-let progress_bar = 1000; // Начальное значение, будет обновлено после загрузки
-// let tokens2 = 1000; // Добавленная переменная, также будет обновлена
 const tokensMax = 1000; // Максимальное значение
+let progress_bar = 1000; // Начальное значение, будет обновлено после загрузки
+
 
 // Функция для обновления прогресс-бара
 function updateProgressBar() {
   let percentage = (progress_bar / tokensMax) * 100;
   document.querySelector(".progressBarFill").style.width = percentage + "%";
 }
-updateProgressBar();
 
 function fetchAndDisplayTgId() {
   if (Telegram.WebApp.initDataUnsafe) {
     const userId = Telegram.WebApp.initDataUnsafe.user.id;
     document.getElementById("tgIdDisplay").textContent = `TG ID: ${userId}`;
+    return userId; // Возвращает userId для дальнейшего использования
   }
+  return null; // Если информация недоступна, возвращает null
 }
 
-// Вызовите функцию сразу после её объявления
-fetchAndDisplayTgId();
+const userId = fetchAndDisplayTgId(); // Получаем и отображаем tg_id
 
-setInterval(() => {
-  if (progress_bar < tokensMax) {
-    progress_bar++; // Увеличиваем progress_bar на 1 каждую секунду
-    // tokens2++; // Увеличиваем tokens2 вместе с progress_bar
-    updateProgressBar(); // Обновляем полосу прогресса
-    document.querySelector(
-      ".value h1"
-    ).textContent = `⚡ ${progress_bar} (+1) / ${tokensMax}`;
-  }
-}, 1000);
+// Функция для обновления токенов на сервере
+function updateTokensOnServer(tokens) {
+  if (!userId) return; // Если userId не определен, выходим из функции
 
-document.getElementById("img").addEventListener("mousedown", function (event) {
-  event.preventDefault(); // Предотвращаем действие по умолчанию
-});
-
-document.getElementById("img").addEventListener("click", function () {
-  if (progress_bar > 0) {
-    progress_bar--;
-    // tokens2--; // Уменьшаем tokens2 вместе с progress_bar
-    updateProgressBar(); // Обновляем полосу прогресса
-
-    const changeElement = document.createElement("div");
-    changeElement.textContent = "1"; // Текст, отображающий изменение
-    changeElement.className = "token-change"; // Применяем класс с анимацией
-
-    const clickX = event.clientX;
-    const clickY = event.clientY;
-
-    changeElement.style.left = `${clickX + window.scrollX}px`;
-    changeElement.style.top = `${clickY + window.scrollY}px`;
-
-    document.body.appendChild(changeElement);
-
-    setTimeout(() => {
-      changeElement.remove();
-    }, 1000);
-  }
-
-  tokens += 1;
-  document.querySelector(".count h1").textContent = `FTMC Tokens: ${tokens}`;
-  document.querySelector(
-    ".value h1"
-  ).textContent = `⚡ ${progress_bar} (+1) / ${tokensMax}`;
-
-  // Вибрация при клике (поддерживается не на всех устройствах)
-  if (navigator.vibrate) {
-    navigator.vibrate(50); // Вибрация на 50 миллисекунд
-  }
-
-  clearTimeout(clickTimeout); // Очистить текущий таймер, если он существует
-  this.classList.remove("click-effect"); // Убрать класс для эффекта внутреннего клика, если он есть
-  void this.offsetWidth; // Триггер перерисовки для повторного проигрывания анимации
-  this.classList.add("clicked", "click-effect"); // Добавить класс для увеличения и класс для эффекта клика
-
-  setTimeout(() => this.classList.remove("click-effect"), 50);
   fetch("http://localhost:5500/update_tokens", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ userId: userId, tokens: progress_bar }),
+    body: JSON.stringify({ userId, tokens }),
   })
-    .then((response) => response.json())
-    .then((data) => console.log("Tokens updated:", data))
-    .catch((error) => console.error("Error updating tokens:", error));
-
-  clickTimeout = setTimeout(() => {
-    this.classList.remove("clicked");
-  }, 200);
-});
-
-function fetchAndDisplayTgId() {
-  if (Telegram.WebApp.initDataUnsafe) {
-    const userId = Telegram.WebApp.initDataUnsafe.user.id;
-    document.getElementById("tgIdDisplay").textContent = `TG ID: ${userId}`;
-
-    // Отправляем userId на сервер для сохранения пользователя
-    fetch("http://localhost:5500/save_user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: userId }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        // Здесь можно добавить логику после успешного сохранения пользователя
-      })
-      .catch((error) =>
-        console.error("Ошибка при сохранении пользователя:", error)
-      );
-
-    fetch(`http://localhost:5500/get_tokens?userId=${userId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === "success") {
-          progress_bar = data.tokens;
-          // tokens2 = data.tokens;
-          updateProgressBar();
-          document.getElementById(
-            "tokensValue"
-          ).textContent = `⚡ ${tokens2} (+1)`;
-        } else {
-          console.error("Ошибка при получении токенов:", data.message);
-        }
-      })
-      .catch((error) => console.error("Ошибка:", error));
-  }
+  .then((response) => response.json())
+  .then((data) => console.log("Tokens updated:", data))
+  .catch((error) => console.error("Error updating tokens:", error));
 }
-fetchAndDisplayTgId();
+
+// Загрузка текущего значения tokens при инициализации
+function loadTokens() {
+  if (!userId) return; // Если userId не определен, выходим из функции
+
+  fetch(`http://localhost:5500/get_tokens?userId=${userId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "success") {
+        tokens = data.tokens; // Обновляем переменную tokens
+        document.querySelector(".count h1").textContent = `FTMC Tokens: ${tokens}`;
+        updateProgressBar(); // Обновляем прогресс-бар
+      }
+    })
+    .catch((error) => console.error("Error loading tokens:", error));
+}
+
+// Вызовите loadTokens при загрузке страницы
+document.addEventListener("DOMContentLoaded", loadTokens);
+
+document.getElementById("img").addEventListener("click", function () {
+  tokens += 1; // Увеличиваем tokens при каждом клике
+  document.querySelector(".count h1").textContent = `FTMC Tokens: ${tokens}`;
+  updateProgressBar(); // Обновляем прогресс-бар
+  updateTokensOnServer(tokens); // Обновляем tokens на сервере
+});
