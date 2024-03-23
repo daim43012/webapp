@@ -76,6 +76,16 @@ document.getElementById("img").addEventListener("click", function () {
   this.classList.add("clicked", "click-effect"); // Добавить класс для увеличения и класс для эффекта клика
 
   setTimeout(() => this.classList.remove("click-effect"), 50);
+  fetch("http://localhost:5500/update_tokens", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ userId: userId, tokens: progress_bar }),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log("Tokens updated:", data))
+    .catch((error) => console.error("Error updating tokens:", error));
 
   clickTimeout = setTimeout(() => {
     this.classList.remove("clicked");
