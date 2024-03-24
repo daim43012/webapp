@@ -30,6 +30,48 @@ setInterval(() => {
   }
 }, 1000);
 
+document.getElementById("img").addEventListener("click", function () {
+  if (progress_bar > 0) {
+    progress_bar--;
+    updateProgressBar(); 
+
+    const changeElement = document.createElement("div");
+    changeElement.textContent = "1"; 
+    changeElement.className = "token-change"; 
+
+    const clickX = event.clientX;
+    const clickY = event.clientY;
+
+    changeElement.style.left = `${clickX + window.scrollX}px`;
+    changeElement.style.top = `${clickY + window.scrollY}px`;
+
+    document.body.appendChild(changeElement);
+
+    setTimeout(() => {
+      changeElement.remove();
+    }, 1000);
+  }
+
+  tokens += 1;
+  document.querySelector(".count h1").textContent = `FTMC Tokens: ${tokens}`;
+  document.querySelector(
+    ".value h1"
+  ).textContent = `⚡ ${progress_bar} (+1) / ${tokensMax}`;
+
+  if (navigator.vibrate) {
+    navigator.vibrate(50); 
+  }
+
+  clearTimeout(clickTimeout); 
+  this.classList.remove("click-effect"); 
+  void this.offsetWidth; 
+  this.classList.add("clicked", "click-effect");
+
+  clickTimeout = setTimeout(() => {
+    this.classList.remove("clicked");
+  }, 200);
+});
+
 document.getElementById("img").addEventListener("mousedown", function (event) {
   event.preventDefault(); 
 });
