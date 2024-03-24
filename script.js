@@ -1,24 +1,23 @@
 let clickTimeout;
-let tokens = 0;
+let tokens = 0; 
 let progress_bar = 1000; 
-
-document.addEventListener("DOMContentLoaded", function() {
-  Telegram.WebApp.ready();
-
-  function fetchAndDisplayTgId() {
-    if (Telegram.WebApp.initDataUnsafe) {
-      const userId = Telegram.WebApp.initDataUnsafe.user.id;
-      document.getElementById("tgIdDisplay").textContent = `TG ID: ${userId}`;
-    }
-  }
-  fetchAndDisplayTgId();
-});
+const tokensMax = 1000; 
 
 function updateProgressBar() {
   let percentage = (progress_bar / tokensMax) * 100;
   document.querySelector(".progressBarFill").style.width = percentage + "%";
 }
+
 updateProgressBar();
+
+function fetchAndDisplayTgId() {
+  if (Telegram.WebApp.initDataUnsafe) {
+    const userId = Telegram.WebApp.initDataUnsafe.user.id;
+    document.getElementById("tgIdDisplay").textContent = `TG ID: ${userId}`;
+  }
+}
+
+fetchAndDisplayTgId();
 
 setInterval(() => {
   if (progress_bar < tokensMax) {
@@ -30,9 +29,14 @@ setInterval(() => {
   }
 }, 1000);
 
+document.getElementById("img").addEventListener("mousedown", function (event) {
+  event.preventDefault(); 
+});
+
 document.getElementById("img").addEventListener("click", function () {
   if (progress_bar > 0) {
     progress_bar--;
+
     updateProgressBar(); 
 
     const changeElement = document.createElement("div");
@@ -71,6 +75,45 @@ document.getElementById("img").addEventListener("click", function () {
     this.classList.remove("clicked");
   }, 200);
 });
+
+function fetchAndDisplayTgId() {
+  if (Telegram.WebApp.initDataUnsafe) {
+    const userId = Telegram.WebApp.initDataUnsafe.user.id;
+    document.getElementById("tgIdDisplay").textContent = `TG ID: ${userId}`;
+
+    fetch("http://localhost:5500/save_user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId: userId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) =>
+        console.error("Ошибка при сохранении пользователя:", error)
+      );
+
+    fetch(`http://localhost:5500/get_tokens?userId=${userId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "success") {
+          progress_bar = data.tokens;
+          updateProgressBar();
+          document.getElementById(
+            "tokensValue"
+          ).textContent = `⚡ ${tokens} (+1)`;
+        } else {
+          console.error("Ошибка при получении токенов:", data.message);
+        }
+      })
+      .catch((error) => console.error("Ошибка:", error));
+  }
+}
+
+fetchAndDisplayTgId();
 
 document.getElementById("img").addEventListener("mousedown", function (event) {
   event.preventDefault(); 
