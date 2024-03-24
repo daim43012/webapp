@@ -104,7 +104,7 @@ function fetchAndDisplayTgId() {
           updateProgressBar();
           document.getElementById(
             "tokensfromdb"
-          ).textContent = `⚡ ${tokens} (+1)`;
+          ).textContent = `⚡ ${tokens2} (+1)`;
         } else {
           console.error("Ошибка при получении токенов:", data.message);
         }
